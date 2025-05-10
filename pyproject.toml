@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 120  # Wider line width than default (88)
-target-version = ['py313']  # Python 3.12+ syntax
+target-version = ['py313']  # Python 3.13+ syntax
 exclude = '''
 /(
   \.toml
