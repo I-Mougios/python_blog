@@ -1,6 +1,6 @@
 [tool.black]
-line-length = 120  # Wider line width than default (88)
-target-version = ['py313']  # Python 3.13+ syntax
+line-length = 120
+target-version = ['py313']
 exclude = '''
 /(
   \.toml
@@ -13,14 +13,13 @@ exclude = '''
 '''  # Files Black will ignore
 
 [tool.isort]
-py_version = 313  # Matches Black's target
-profile = "black"  # Ensures compatible settings
-multi_line_output = 3  # Optional: Vertical hanging indent
-src_paths = ["year"]  # Only format your library code
+profile = "black"
+multi_line_output = 3
+src_paths = ["year"]
 
 [tool.commitizen]
-name = "cz_conventional_commits" # Specifies the commit message convention/style to use
-version = "0.1.0"  # Your project's current version
+name = "cz_conventional_commits"
+version = "0.1.0"
 tag_format = "v$version"
 version_files = [
     "pyproject.toml:version"
