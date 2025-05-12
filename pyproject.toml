@@ -9,6 +9,7 @@ exclude = '''
   |\.ini
   |\.json
   |\.md
+  |\.venv
 )/
 '''  # Files Black will ignore
 
