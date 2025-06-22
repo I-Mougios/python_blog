@@ -1,5 +1,5 @@
 # Python_blog
-A structured catalog of Python library explorations, organized chronologically. Each month features hands-on experiments with different libraries, showcasing practical use cases and benchmarks.
+A structured catalog of Python library explorations and custom utilities, organized chronologically.
 
 # May 2025
 
@@ -17,3 +17,14 @@ A structured catalog of Python library explorations, organized chronologically. 
 - **Execution Tracing**: Track code flow with automatic file/line number reporting
 - **Production Ready**: Global toggle (`ic.disable()`) for clean production code
 - **Custom Formatting**: Extend output with `argumentToString` registrations
+
+### 3. Utility class for reading large CSV files
+
+#### Key Features
+- **Batch loading**: Reads rows in user-defined batches to avoid memory overload.
+- **Dictionary output**: Each row is returned as a dictionary, just like csv.DictReader.
+- **Iterator protocol**: Compatible with for loops like "for batch in reader".
+- **Header flexibility**: Can infer headers or accept them explicitly.
+- **Unicode robustness**: Automatically cleans and reopens files with decoding issues.
+- **Smart delimiter handling**: Replaces conflicting delimiters when necessary.
+- **Context manager support**: Ensures safe file handling via with blocks.
