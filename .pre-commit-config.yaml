@@ -13,3 +13,11 @@ repos:
     rev: 7.2.0
     hooks:
       - id: flake8
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: run tests before commit
+        entry: pytest tests
+        language: system
+        pass_filenames: false

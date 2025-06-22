@@ -6,6 +6,7 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = [
+    "pytest",
     "black[jupyter]",
     "isort",
     "flake8",
