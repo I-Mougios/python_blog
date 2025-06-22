@@ -3,16 +3,23 @@ from itertools import islice
 from pathlib import Path
 from typing import Iterable, Optional, Union
 
+from icecream import ic
+
 
 def clean_file(input_path: Path, encoding: str = "utf-8") -> Path:
     """Creates a cleaned version of the file with problematic lines removed"""
+    input_dir = input_path.parent  # directory containing input file
+
     output_name = input_path.stem + "_cleaned" + input_path.suffix
-    error_name = input_path.stem + "invalid_rows" + input_path.suffix
+    error_name = input_path.stem + "_invalid_rows" + input_path.suffix
+
+    output_path = input_dir / output_name
+    error_path = input_dir / error_name
 
     with (
         open(input_path, "rb") as infile,
-        open(output_name, "w", encoding="utf-8") as cleansed_file,
-        open(error_name, "wb") as errorfile,
+        open(output_path, "w", encoding="utf-8") as cleansed_file,
+        open(error_path, "wb") as errorfile,
     ):
 
         for i, raw_line in enumerate(infile, start=1):
@@ -23,7 +30,7 @@ def clean_file(input_path: Path, encoding: str = "utf-8") -> Path:
                 prefix = f"[Line {i}] ".encode("utf-8")
                 errorfile.write(prefix + raw_line)
 
-    return Path(output_name)
+    return output_path
 
 
 class DelimiterError(Exception):
@@ -117,14 +124,16 @@ class CSVBatchReader:
         """Get the first line from the file but handle the case of a UnicodeDecodeError"""
         try:
             return next(self.file)
-        except UnicodeDecodeError:
+        except UnicodeDecodeError as ex:
+            ic(ex)
             self._handle_unicode_error()
             return next(self.file)
 
     def _get_batch(self):
         try:
             batch = list(islice(self.file, self.batch_size))
-        except UnicodeDecodeError:
+        except UnicodeDecodeError as ex:
+            ic(ex)
             self._handle_unicode_error()
             batch = list(islice(self.file, self.batch_size))
         return batch
@@ -141,9 +150,16 @@ class CSVBatchReader:
             - Reset the file property to force re-open the new file
         """
         output_file = clean_file(self.filepath, self.encoding)
-        self.filepath = output_file.name
+        self.filepath = output_file
         self.encoding = "utf-8"
-        self._file = None
+
+        if self._file:
+            try:
+                self._file.close()
+            except Exception:
+                pass
+
+        self._file = open(self.filepath, "r", encoding=self.encoding, **self.open_kwargs)
 
     def replace_delimiter(self, lines: Iterable[str]) -> tuple[str, Iterable[str]]:
         """
