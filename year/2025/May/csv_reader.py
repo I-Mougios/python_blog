@@ -156,7 +156,7 @@ class CSVBatchReader:
         if self._file:
             try:
                 self._file.close()
-            except Exception:
+            except Exception:  # noqa: S110
                 pass
 
         self._file = open(self.filepath, "r", encoding=self.encoding, **self.open_kwargs)
