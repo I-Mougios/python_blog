@@ -1,0 +1,24 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-container
+    env_file:
+      - configs/mysql.env
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  scrapy_db:
+    build:
+      context: ./year/2025/June/database
+      dockerfile: database.dockerfile
+    container_name: scrapy_db
+    volumes:
+      - ./year/2025/June/database/base.py:/database/base.py
+      - ./configs/mysql.env:/database/mysql.env
+    depends_on:
+      - mysql
+
+volumes:
+  data:
