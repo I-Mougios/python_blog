@@ -4,7 +4,7 @@
 # Files where I test implementations and configs
 refreshers/
 configs
-.env
+*.env
 
 # IDE files
 .idea/

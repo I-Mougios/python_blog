@@ -1,7 +1,7 @@
 # Python_blog
 A structured catalog of Python library explorations and custom utilities, organized chronologically.
 
-# May 2025
+## 📅 May 2025
 
 ### 1. Decorators using `wrapt.decorator`
 
@@ -28,3 +28,19 @@ A structured catalog of Python library explorations and custom utilities, organi
 - **Unicode robustness**: Automatically cleans and reopens files with decoding issues.
 - **Smart delimiter handling**: Replaces conflicting delimiters when necessary.
 - **Context manager support**: Ensures safe file handling via with blocks.
+
+## 📅 June 2025
+
+### 1. Dockerized SQLAlchemy + MySQL environment
+
+> **Purpose**: Establish a robust local development environment with `SQLAlchemy`, and MySQL integration using Docker.
+
+#### Key Highlights
+- **Docker Compose** setup with two services:
+  - `mysql`: A MySQL 8 container with mounted configuration and persistent storage.
+  - `scrapy_db`: A Python 3.13 Alpine container that loads `.env` files and runs database logic with SQLAlchemy.
+- **Environment-aware configuration**: Uses `dotenv` to load either `local.env` (outside Docker) or `mysql.env` (inside container) dynamically.
+- **Test connectivity**: Includes a sample test (`tests/test_engine.py`) to validate SQLAlchemy connection.
+- **Use case foundation**: This setup serves as the base for all upcoming `Scrapy` experiments.
+
+> 📌 **Next step**: Scaffold a Scrapy project within this Dockerized structure and demonstrate DB-backed scraping pipelines.
