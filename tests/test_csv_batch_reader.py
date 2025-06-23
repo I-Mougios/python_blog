@@ -10,7 +10,6 @@ CSVBatchReader = csv_reader_module.CSVBatchReader
 
 class TestCSVBatchReader:
     def setup_method(self, method):
-        print(f"Running setup method for {method.__name__}")
         self.csv_file = Path(__file__).parent / "test_data.csv"
         parent_dir = self.csv_file.parent
         self.cleansed_file = parent_dir / (self.csv_file.stem + "_cleaned" + self.csv_file.suffix)
@@ -47,12 +46,9 @@ class TestCSVBatchReader:
         self.csv_file.write_bytes(content)
 
     def teardown_method(self, method):
-        try:
-            self.csv_file.unlink(missing_ok=True)
-            self.cleansed_file.unlink(missing_ok=True)
-            self.errors.unlink(missing_ok=True)
-        except Exception as e:
-            print(f"Failed to remove all files:\n {e}")
+        self.csv_file.unlink(missing_ok=True)
+        self.cleansed_file.unlink(missing_ok=True)
+        self.errors.unlink(missing_ok=True)
 
     def test_with_headers_clean_data(self):
         batch_size = 3
