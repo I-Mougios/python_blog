@@ -9,6 +9,9 @@ dependencies = [
                 "sqlalchemy",
                 "mysqlclient",
                 "cryptography",
+                "requests",
+                "scrapy",
+                "ipython",
 ]
 
 [project.optional-dependencies]
