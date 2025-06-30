@@ -1,5 +1,5 @@
 # Python_blog
-A structured catalog of Python library explorations and custom utilities, organized chronologically.
+A structured catalog of Python library explorations, custom utilities, and mini-projects organized chronologically.
 
 ## 📅 May 2025
 
