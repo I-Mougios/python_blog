@@ -1,8 +1,5 @@
-from itertools import islice
-
 import scrapy
 from bookscraper import BookItem
-from icecream import ic
 
 
 class BookspiderSpider(scrapy.Spider):
@@ -12,7 +9,7 @@ class BookspiderSpider(scrapy.Spider):
 
     def parse(self, response):
         books = response.css("article.product_pod")
-        for book in islice(books, 1):
+        for book in books:
             book_url = response.urljoin(book.css("a::attr(href)").get())
             yield response.follow(book_url, callback=self.parse_book)
 
@@ -40,12 +37,11 @@ class BookspiderSpider(scrapy.Spider):
             title=title,
             upc=upc,
             category=category,
-            stars=stars,
+            star_rating=stars,
             product_type=product_type,
             price_excl_vat=price_excl_vat,
             price_incl_vat=price_incl_vat,
             availability=availability,
             n_reviews=n_reviews,
         )
-        ic(book_item)
         yield book_item
