@@ -1,21 +1,27 @@
+from itertools import islice
+
 import scrapy
 from bookscraper import BookItem
 
 
 class BookspiderSpider(scrapy.Spider):
+    page_counter = 0
     name = "bookspider"
     allowed_domains = ["books.toscrape.com"]
     start_urls = ["https://books.toscrape.com/"]
 
+    custom_settings = {"FEEDS": {"bookdata.json": {"format": "json", "encoding": "utf8", "overwrite": True}}}
+
     def parse(self, response):
         books = response.css("article.product_pod")
-        for book in books:
+        for book in islice(books, 3):
             book_url = response.urljoin(book.css("a::attr(href)").get())
             yield response.follow(book_url, callback=self.parse_book)
 
         next_page = response.css("li.next a::attr(href)").get()
 
-        if next_page:
+        if next_page and self.page_counter < 5:
+            self.page_counter += 1
             next_page_url = response.urljoin(next_page)
             yield response.follow(next_page_url, callback=self.parse)
 
