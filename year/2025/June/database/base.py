@@ -30,9 +30,10 @@ db_password = os.getenv("MYSQL_PASSWORD")
 db_name = os.getenv("MYSQL_DATABASE")
 db_host = os.getenv("MYSQL_HOST", "localhost")
 db_port = int(os.getenv("MYSQL_PORT", 3306))
+echo = os.getenv("MYSQL_ECHO", False)
 
 mysql_uri = f"mysql+pymysql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
-engine = sa.create_engine(mysql_uri, echo=True)
+engine = sa.create_engine(mysql_uri, echo=echo)
 
 
 class Base(DeclarativeBase):
