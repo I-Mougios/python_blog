@@ -19,7 +19,6 @@ def convert_star_rating(star_rating_str):
     try:
         star_rating = star_rating_str.rsplit(" ", maxsplit=1)[1].lower()
     except (IndexError, AttributeError):
-        print(f"Invalid star rating string: {star_rating_str}")
         return None
 
     match star_rating:
@@ -36,7 +35,6 @@ def convert_star_rating(star_rating_str):
         case "five":
             return 5
         case _:
-            print(f"Unrecognized rating value: {star_rating}")
             return None
 
 

@@ -60,7 +60,6 @@ class BookspiderSpider(scrapy.Spider):
 
     @cached_property
     def fake_user_agents(self):
-        print("Fetching fake user agents from ScrapeOps...")
         env_path = Path(__file__).resolve().parent
         while env_path != env_path.root:
             candidate = env_path / "configs" / "scraper.env"
