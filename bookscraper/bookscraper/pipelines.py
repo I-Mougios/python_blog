@@ -88,5 +88,8 @@ class InsertToDBPipeline:
             except Exception:
                 connection.rollback()
 
+    def close_spider(self, spider):
+        print("Closing database connection .. ")
+
 
 SaveToBooksDBPipeline = partial(InsertToDBPipeline, engine=database_package.engine, table=database_package.Book)
