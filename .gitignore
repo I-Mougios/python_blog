@@ -1,5 +1,6 @@
 # Text documents
 *.txt
+*.csv
 
 # Files where I test implementations and configs
 refreshers/
