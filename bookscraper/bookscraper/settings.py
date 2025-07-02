@@ -11,6 +11,7 @@ BOT_NAME = "bookscraper"
 
 SPIDER_MODULES = ["bookscraper.spiders"]
 NEWSPIDER_MODULE = "bookscraper.spiders"
+FEEDS = {"bookdata.csv": {"format": "csv", "encoding": "utf8", "overwrite": True}}
 
 ADDONS = {}
 
