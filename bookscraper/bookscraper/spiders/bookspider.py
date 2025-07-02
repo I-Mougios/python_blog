@@ -1,7 +1,13 @@
+import os
+import random
+from functools import cached_property
 from itertools import islice
+from pathlib import Path
 
+import requests
 import scrapy
 from bookscraper import BookItem
+from dotenv import load_dotenv
 
 
 class BookspiderSpider(scrapy.Spider):
@@ -10,13 +16,13 @@ class BookspiderSpider(scrapy.Spider):
     allowed_domains = ["books.toscrape.com"]
     start_urls = ["https://books.toscrape.com/"]
 
-    custom_settings = {"FEEDS": {"bookdata.json": {"format": "json", "encoding": "utf8", "overwrite": True}}}
-
     def parse(self, response):
         books = response.css("article.product_pod")
         for book in islice(books, 3):
             book_url = response.urljoin(book.css("a::attr(href)").get())
-            yield response.follow(book_url, callback=self.parse_book)
+            yield response.follow(
+                book_url, callback=self.parse_book, headers={"User-Agent": random.choice(self.fake_user_agents)}
+            )
 
         next_page = response.css("li.next a::attr(href)").get()
 
@@ -51,3 +57,29 @@ class BookspiderSpider(scrapy.Spider):
             n_reviews=n_reviews,
         )
         yield book_item
+
+    @cached_property
+    def fake_user_agents(self):
+        print("Fetching fake user agents from ScrapeOps...")
+        env_path = Path(__file__).resolve().parent
+        while env_path != env_path.root:
+            candidate = env_path / "configs" / "scraper.env"
+            if candidate.exists():
+                load_dotenv(dotenv_path=candidate, override=True)
+                break
+            env_path = env_path.parent
+        else:
+            raise FileNotFoundError("scraper.env not found")
+
+        api_key = os.getenv("FAKE_USER_AGENTS_API")
+        if not api_key:
+            raise ValueError("FAKE_USER_AGENTS_API not set in scraper.env")
+
+        url = f"https://headers.scrapeops.io/v1/browser-headers?api_key={api_key}"
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            result = response.json()["result"]
+            return [item.get("user-agent", "Missing-UA") for item in result]
+        except Exception as e:
+            raise RuntimeError(f"Failed to fetch fake headers: {e}")
