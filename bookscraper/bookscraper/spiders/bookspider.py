@@ -70,9 +70,9 @@ class BookspiderSpider(scrapy.Spider):
         else:
             raise FileNotFoundError("scraper.env not found")
 
-        api_key = os.getenv("FAKE_USER_AGENTS_API")
+        api_key = os.getenv("SCRAPEOPS_API_KEY")
         if not api_key:
-            raise ValueError("FAKE_USER_AGENTS_API not set in scraper.env")
+            raise ValueError("SCRAPEOPS_API_KEY not set in scraper.env")
 
         url = f"https://headers.scrapeops.io/v1/browser-headers?api_key={api_key}"
         try:
