@@ -4,8 +4,54 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 # useful for handling different item types with a single interface
+import random
+
+import requests
 from itemadapter import ItemAdapter  # noqa F401
 from scrapy import signals
+
+
+class ScrapeOpsUserAgentMiddleware(object):
+
+    def process_request(self, request, spider):
+        print(f"process_request method was called: {request}")
+        """This is a method that scrapy will look for """
+        ua = random.choice(self.user_agents_list)
+        request.headers["User-Agent"] = ua
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
+    def __init__(self, settings):
+        self.scrape_ops_api_key = settings.get("SCRAPE_OPS_API_KEY")
+        self.scrape_ops_endpoint = settings.get("SCRAPE_OPS_FAKE_USER_AGENT_ENDPOINT")
+        self.scrape_ops_fake_user_agent_active = settings.get("SCRAPE_OPS_FAKE_USER_AGENT_ACTIVE")
+        self.scrape_ops_num_results = settings.get("SCRAPE_OPS_NUM_RESULTS")
+        self.headers_list = []
+        self._get_user_agents_list()
+        self._scrape_ops_fake_user_agents_enabled()
+
+    def _get_user_agents_list(self):
+        params = {}
+        if self.scrape_ops_api_key:
+            params["api_key"] = self.scrape_ops_api_key
+        if self.scrape_ops_num_results:
+            params["num_results"] = self.scrape_ops_num_results
+
+        response = requests.get(self.scrape_ops_endpoint, params=params)
+        result = response.json().get("result", [])
+        if result:
+            self.user_agents_list = result
+            return
+
+        raise KeyError("not key result in response")
+
+    def _scrape_ops_fake_user_agents_enabled(self):
+        if not self.scrape_ops_api_key or not self.scrape_ops_fake_user_agent_active:
+            self.scrape_ops_fake_user_agent_active = False
+        else:
+            self.scrape_ops_fake_user_agent_active = True
 
 
 class BookscraperSpiderMiddleware:

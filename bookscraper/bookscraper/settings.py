@@ -1,3 +1,29 @@
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+
+def load_env_file(directory_name: str, filename: str):
+    print("***** _load_env_file *****")
+    env_path = Path(__file__).resolve().parent
+    while env_path != env_path.root:
+        candidate = env_path / directory_name / filename
+        if candidate.exists():
+            load_dotenv(dotenv_path=candidate, override=True)
+            break
+        env_path = env_path.parent
+    else:
+        raise FileNotFoundError("scraper.env not found")
+
+
+load_env_file("configs", "scraper.env")
+
+SCRAPEOPS_API_KEY = os.environ.get("SCRAPEOPS_API_KEY")
+SCRAPE_OPS_FAKE_USER_AGENT_ENDPOINT = "https://headers.scrapeops.io/v1/user-agents"
+SCRAPE_OPS_FAKE_USER_AGENT_ACTIVE = True
+SCRAPE_OPS_NUM_RESULTS = 50
+
 # Scrapy settings for bookscraper project
 #
 # For simplicity, this file contains only settings considered important or
@@ -52,9 +78,7 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
-# }
+DOWNLOADER_MIDDLEWARES = {"bookscraper.middlewares.ScrapeOpsUserAgentMiddleware": 1}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

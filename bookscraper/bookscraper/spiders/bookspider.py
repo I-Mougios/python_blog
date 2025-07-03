@@ -1,13 +1,10 @@
-import os
 import random
 from functools import cached_property
 from itertools import islice
-from pathlib import Path
 
 import requests
 import scrapy
 from bookscraper import BookItem
-from dotenv import load_dotenv
 
 
 class BookspiderSpider(scrapy.Spider):
@@ -17,6 +14,7 @@ class BookspiderSpider(scrapy.Spider):
     start_urls = ["https://books.toscrape.com/"]
 
     def parse(self, response):
+        print(f"parse method was called: {response.url}")
         books = response.css("article.product_pod")
         for book in islice(books, 3):
             book_url = response.urljoin(book.css("a::attr(href)").get())
@@ -32,6 +30,7 @@ class BookspiderSpider(scrapy.Spider):
             yield response.follow(next_page_url, callback=self.parse)
 
     def parse_book(self, response):
+        print(f"parse_book method was called: {response.url}")
         table_rows = response.css("table tr")
 
         url = response.url
@@ -60,17 +59,7 @@ class BookspiderSpider(scrapy.Spider):
 
     @cached_property
     def fake_user_agents(self):
-        env_path = Path(__file__).resolve().parent
-        while env_path != env_path.root:
-            candidate = env_path / "configs" / "scraper.env"
-            if candidate.exists():
-                load_dotenv(dotenv_path=candidate, override=True)
-                break
-            env_path = env_path.parent
-        else:
-            raise FileNotFoundError("scraper.env not found")
-
-        api_key = os.getenv("SCRAPEOPS_API_KEY")
+        api_key = self.settings.get("SCRAPEOPS_API_KEY")
         if not api_key:
             raise ValueError("SCRAPEOPS_API_KEY not set in scraper.env")
 
