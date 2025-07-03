@@ -14,8 +14,10 @@ from scrapy import signals
 class ScrapeOpsUserAgentMiddleware(object):
 
     def process_request(self, request, spider):
-        print(f"process_request method was called: {request}")
-        """This is a method that scrapy will look for """
+        """
+        This is a method that scrapy will look for
+        before spiders send a request
+        """
         ua = random.choice(self.user_agents_list)
         request.headers["User-Agent"] = ua
 

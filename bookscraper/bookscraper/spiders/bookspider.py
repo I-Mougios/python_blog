@@ -13,7 +13,6 @@ class BookspiderSpider(scrapy.Spider):
     start_urls = ["https://books.toscrape.com/"]
 
     def parse(self, response):
-        print(f"parse method was called: {response.url}")
         books = response.css("article.product_pod")
         for book in islice(books, 3):
             book_url = response.urljoin(book.css("a::attr(href)").get())
@@ -27,8 +26,6 @@ class BookspiderSpider(scrapy.Spider):
             yield response.follow(next_page_url, callback=self.parse)
 
     def parse_book(self, response):
-        print(f"parse_book method was called: {response.url}")
-        print(f"Response user-agent to check the rotation: {response.request.headers.get('User-Agent')}")
         table_rows = response.css("table tr")
 
         url = response.url

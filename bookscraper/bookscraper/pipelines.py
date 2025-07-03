@@ -40,8 +40,10 @@ def convert_star_rating(star_rating_str):
 
 class BookscraperPipeline:
     def process_item(self, item, spider):
-        """This is a method that scrapy will look for"""
-        print(f"Bookscaper.process_item method was called: {item}")
+        """
+        This is a method that scrapy will look for when a scrapy.Item or dict
+        yielded from spider
+        """
         adapter = ItemAdapter(item)
         lowercase_keys = ["category", "product_type"]
         for key in lowercase_keys:
@@ -80,7 +82,6 @@ class InsertToDBPipeline:
         self.table = table.__table__ if hasattr(table, "__table__") else table
 
     def process_item(self, item, spider):
-        print("SaveToBooksDBPipeline.process_item method was called")
         with self.engine.connect() as connection:
             try:
                 connection.execute(sa.insert(self.table), parameters=item)
