@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 
 def load_env_file(directory_name: str, filename: str):
-    print("***** _load_env_file *****")
     env_path = Path(__file__).resolve().parent
     while env_path != env_path.root:
         candidate = env_path / directory_name / filename
@@ -45,7 +44,7 @@ ADDONS = {}
 # USER_AGENT = "bookscraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
