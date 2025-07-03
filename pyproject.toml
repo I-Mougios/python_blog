@@ -12,6 +12,8 @@ dependencies = [
                 "requests",
                 "scrapy",
                 "ipython",
+                "brotli",
+                "brotlicffi"
 ]
 
 [project.optional-dependencies]

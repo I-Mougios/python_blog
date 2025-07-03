@@ -20,7 +20,9 @@ load_env_file("configs", "scraper.env")
 
 SCRAPEOPS_API_KEY = os.environ.get("SCRAPEOPS_API_KEY")
 SCRAPE_OPS_FAKE_USER_AGENT_ENDPOINT = "https://headers.scrapeops.io/v1/user-agents"
+SCRAPE_OPS_FAKE_BROWSER_HEADER_ENDPOINT = "https://headers.scrapeops.io/v1/browser-headers"
 SCRAPE_OPS_FAKE_USER_AGENT_ACTIVE = True
+SCRAPE_OPS_FAKE_BROWSER_HEADERS_ACTIVE = True
 SCRAPE_OPS_NUM_RESULTS = 50
 
 # Scrapy settings for bookscraper project
@@ -77,7 +79,10 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {"bookscraper.middlewares.ScrapeOpsUserAgentMiddleware": 1}
+DOWNLOADER_MIDDLEWARES = {
+    "bookscraper.middlewares.ScrapeOpsUserAgentMiddleware": 1,
+    "bookscraper.middlewares.ScrapeOpsBrowserHeadersMiddleware": 2,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

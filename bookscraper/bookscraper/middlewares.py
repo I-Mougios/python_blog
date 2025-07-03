@@ -56,6 +56,52 @@ class ScrapeOpsUserAgentMiddleware(object):
             self.scrape_ops_fake_user_agent_active = True
 
 
+class ScrapeOpsBrowserHeadersMiddleware(object):
+
+    def process_request(self, request, spider):
+        """
+        This is a method that scrapy will look for
+        before spiders send a request
+        """
+        browser_header = random.choice(self.browser_headers_list)
+        for k, v in browser_header.items():
+            request.headers[k] = v
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
+    def __init__(self, settings):
+        self.scrape_ops_api_key = settings.get("SCRAPE_OPS_API_KEY")
+        self.scrape_ops_endpoint = settings.get("SCRAPE_OPS_FAKE_BROWSER_HEADER_ENDPOINT")
+        self.scrape_ops_browser_headers_agent_active = settings.get("SCRAPE_OPS_FAKE_BROWSER_HEADERS_ACTIVE")
+        self.scrape_ops_num_results = settings.get("SCRAPE_OPS_NUM_RESULTS")
+        self.headers_list = []
+        self._get_browser_headers_list()
+        self._scrape_ops_fake_browser_headers_enabled()
+
+    def _get_browser_headers_list(self):
+        params = {}
+        if self.scrape_ops_api_key:
+            params["api_key"] = self.scrape_ops_api_key
+        if self.scrape_ops_num_results:
+            params["num_results"] = self.scrape_ops_num_results
+
+        response = requests.get(self.scrape_ops_endpoint, params=params)
+        result = response.json().get("result", [])
+        if result:
+            self.browser_headers_list = result
+            return
+
+        raise KeyError("not key result in response")
+
+    def _scrape_ops_fake_browser_headers_enabled(self):
+        if not self.scrape_ops_api_key or not self.scrape_ops_browser_headers_agent_active:
+            self.scrape_ops_fake_browser_headers_active = False
+        else:
+            self.scrape_ops_fake_browser_headers_active = True
+
+
 class BookscraperSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
