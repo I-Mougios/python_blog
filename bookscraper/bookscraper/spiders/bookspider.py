@@ -1,4 +1,3 @@
-import random
 from functools import cached_property
 from itertools import islice
 
@@ -18,9 +17,7 @@ class BookspiderSpider(scrapy.Spider):
         books = response.css("article.product_pod")
         for book in islice(books, 3):
             book_url = response.urljoin(book.css("a::attr(href)").get())
-            yield response.follow(
-                book_url, callback=self.parse_book, headers={"User-Agent": random.choice(self.fake_user_agents)}
-            )
+            yield response.follow(book_url, callback=self.parse_book)
 
         next_page = response.css("li.next a::attr(href)").get()
 
@@ -31,6 +28,7 @@ class BookspiderSpider(scrapy.Spider):
 
     def parse_book(self, response):
         print(f"parse_book method was called: {response.url}")
+        print(f"Response user-agent to check the rotation: {response.request.headers.get('User-Agent')}")
         table_rows = response.css("table tr")
 
         url = response.url
