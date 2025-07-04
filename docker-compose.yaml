@@ -20,5 +20,18 @@ services:
     depends_on:
       - mysql
 
+  bookscraper:
+    build:
+      context: .
+      dockerfile: ./bookscraper/bookscraper.dockerfile
+    container_name: bookscraper-container
+    volumes: # Bind mounts allows active development without rebuilding the image
+      - ./bookscraper:/app/bookscraper
+      - ./year/2025/June/database:/app/year/2025/June/database/
+      -  .configs/scraper.env:/app/configs/scraper.env
+      - ./configs/mysql.env:/app/year/2025/June/database/mysql.env
+    depends_on:
+      - mysql
+
 volumes:
   data:
