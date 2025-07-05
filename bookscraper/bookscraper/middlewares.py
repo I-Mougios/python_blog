@@ -41,7 +41,7 @@ class ScrapeOpsUserAgentMiddleware(object):
         if self.scrape_ops_num_results:
             params["num_results"] = self.scrape_ops_num_results
 
-        response = requests.get(self.scrape_ops_endpoint, params=params)
+        response = requests.get(self.scrape_ops_endpoint, params=params, timeout=5)
         result = response.json().get("result", [])
         if result:
             self.user_agents_list = result
@@ -87,7 +87,7 @@ class ScrapeOpsBrowserHeadersMiddleware(object):
         if self.scrape_ops_num_results:
             params["num_results"] = self.scrape_ops_num_results
 
-        response = requests.get(self.scrape_ops_endpoint, params=params)
+        response = requests.get(self.scrape_ops_endpoint, params=params, timeout=5)
         result = response.json().get("result", [])
         if result:
             self.browser_headers_list = result
