@@ -13,7 +13,11 @@ dependencies = [
                 "scrapy",
                 "ipython",
                 "brotli",
-                "brotlicffi"
+                "brotlicffi",
+                "selenium",
+                "webdriver-manager",
+                "undetected_chromedriver",
+                "playwright",
 ]
 
 [project.optional-dependencies]
