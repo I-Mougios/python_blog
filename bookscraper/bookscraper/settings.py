@@ -5,7 +5,10 @@ from dotenv import load_dotenv
 
 
 def load_env_file(directory_name: str, filename: str):
-    env_path = Path(__file__).resolve().parent
+    try:
+        env_path = Path(__file__).resolve().parent
+    except NameError:
+        env_path = Path.cwd().resolve().parent
     while env_path != env_path.root:
         candidate = env_path / directory_name / filename
         if candidate.exists():
