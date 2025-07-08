@@ -6,6 +6,7 @@
 refreshers/
 configs/
 screenshots/
+notebooks/
 *.env
 
 # IDE files
