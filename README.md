@@ -126,5 +126,27 @@ Once logged in, execute the SQL commands below to grant privileges:
 
 ---
 
+## 📅 July 2025
+
+### 🧪 1.  Dicts on Steroids using `benedict` library
+
+This notebook-style blog post explores the challenge of accessing
+deeply nested dictionary data in Python using dot notation — and offers multiple robust solutions:
+
+### Sections
+
+- How to use `SimpleNamespace` with `json.loads(..., object_hook=...)` to support dot notation recursively.
+- How to model and validate nested dictionaries using **Pydantic**, a powerful data validation library.
+- How to supercharge dictionaries with **`benedict`**, a feature-rich library that:
+  - Supports dot notation natively
+  - Offers deep key search, flattening, filtering, matching and more
+
+### 🎁 Bonus: Recursive Traversing and Flattening with `singledispatch`
+
+As a bonus section, the notebook also demonstrates a clean, extensible way to **recursively flatten nested dictionaries** using Python's `functools.singledispatch`.
+
+
+---
+
 
 
