@@ -120,10 +120,10 @@ Once logged in, execute the SQL commands below to grant privileges:
   docker compose up bookscraper
 ```
 
-`docker-compose` sets:
-> working directory to src/bookscraper
-> entrypoint to scrapy
-> command as ["crawl", "bookspider", "--loglevel", "INFO"] which can be overwritten from cli
+> `docker-compose` sets:
+> - working directory to src/bookscraper
+> - entrypoint to scrapy
+> - command as ["crawl", "bookspider", "--loglevel", "INFO"] which can be overwritten from cli
 
 
 ---
