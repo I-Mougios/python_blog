@@ -3,6 +3,7 @@ from itertools import islice
 
 import requests
 import scrapy
+
 from bookscraper import BookItem
 
 

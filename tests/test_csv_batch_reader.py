@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-csv_reader_module = importlib.import_module("year.2025.May.csv_reader")
+csv_reader_module = importlib.import_module("src.2025.May.csv_reader")
 CSVBatchReader = csv_reader_module.CSVBatchReader
 
 

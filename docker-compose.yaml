@@ -1,21 +1,22 @@
 services:
   mysql:
-    image: mysql:8
+    image: mysql:8.0
     container_name: mysql-container
+    restart: always
     env_file:
-      - configs/mysql.env
+      - ./src/configs/mysql.env
     volumes:
-      - data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     ports:
       - "3306:3306"
 
   scrapy_db:
     build:
-      context: ./year/2025/June/database
+      context: src/2025/June/database
       dockerfile: database.dockerfile
     container_name: scrapy_db
     volumes:
-      - ./year/2025/June/database/base.py:/database/base.py
+      - ./src/2025/June/database/base.py:/database/base.py
       - ./configs/mysql.env:/database/mysql.env
     depends_on:
       - mysql
@@ -23,15 +24,20 @@ services:
   bookscraper:
     build:
       context: .
-      dockerfile: ./bookscraper/bookscraper.dockerfile
+      dockerfile: src/bookscraper/bookscraper.dockerfile
     container_name: bookscraper-container
-    volumes: # Bind mounts allows active development without rebuilding the image
-      - ./bookscraper:/app/bookscraper
-      - ./year/2025/June/database:/app/year/2025/June/database/
-      -  .configs/scraper.env:/app/configs/scraper.env
-      - ./configs/mysql.env:/app/year/2025/June/database/mysql.env
+    volumes:
+      - ./src/bookscraper:/app/bookscraper
+      - ./src/2025/June/database:/app/src/2025/June/database
+      - ./src/configs/scraper.env:/app/configs/scraper.env
+      - ./src/configs/mysql.env:/app/src/2025/June/database/mysql.env
+    environment:
+      - PYTHONPATH=/app/src
     depends_on:
       - mysql
+    working_dir: /app/bookscraper
+    entrypoint: [ "scrapy"]
+    command: ["crawl", "bookspider", "--loglevel", "INFO"] # can be overwritten from the cli use docker compose run ...
 
 volumes:
-  data:
+  mysql-data:

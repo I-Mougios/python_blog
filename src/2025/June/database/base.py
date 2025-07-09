@@ -1,4 +1,4 @@
-# python_blog/year/2025/June/database/base.py
+# python_blog/src/2025/June/database/base.py
 import os
 from pathlib import Path
 
@@ -8,7 +8,7 @@ from sqlalchemy.orm import DeclarativeBase
 
 __all__ = ["engine", "Base"]
 
-# Points to # python_blog/year/2025/June/database
+# Points to # python_blog/src/2025/June/database
 base_dir = Path(__file__).resolve().parents[0]
 
 
