@@ -3,7 +3,7 @@ import time
 
 import sqlalchemy as sa
 
-base_module = importlib.import_module("year.2025.June.database.base")
+base_module = importlib.import_module("src.2025.June.database.base")
 engine = base_module.engine
 
 

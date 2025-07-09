@@ -117,12 +117,14 @@ Once logged in, execute the SQL commands below to grant privileges:
 
 **Run inside Docker container**
 ```bash
-  docker compose run --rm --name bookscraper-container bookscraper bookspider --loglevel INFO
+  docker compose up bookscraper
 ```
 
-> This uses the ENTRYPOINT defined in bookscraper.dockerfile,
-> which automatically changes into the correct working directory and
-> executes the crawl.
+`docker-compose` sets:
+> working directory to src/bookscraper
+> entrypoint to scrapy
+> command as ["crawl", "bookspider", "--loglevel", "INFO"] which can be overwritten from cli
+
 
 ---
 

@@ -12,7 +12,7 @@ from functools import partial
 import sqlalchemy as sa
 from itemadapter import ItemAdapter  # noqa F401
 
-database_package = importlib.import_module("year.2025.June.database")
+database_package = importlib.import_module("2025.June.database")
 
 
 def convert_star_rating(star_rating_str):
