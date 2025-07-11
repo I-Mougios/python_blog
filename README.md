@@ -150,6 +150,7 @@ As a bonus section, the notebook also demonstrates a clean, extensible way to **
 ---
 ### 🛠 2. Dispatcher Utility — Dynamic Function Routing in Python
 
+Ever wanted to replace messy `if-elif-else` trees with something cleaner and extensible?
 This module introduces a reusable `Dispatcher` class, inspired by Python’s `functools.singledispatch`, that allows:
 
 - Function dispatching based on arguments
