@@ -148,3 +148,21 @@ deeply nested dictionary data in Python using dot notation — and offers multip
 As a bonus section, the notebook also demonstrates a clean, extensible way to **recursively flatten nested dictionaries** using Python's `functools.singledispatch`.
 
 ---
+### 🛠 2. Dispatcher Utility — Dynamic Function Routing in Python
+
+This module introduces a reusable `Dispatcher` class, inspired by Python’s `functools.singledispatch`, that allows:
+
+- Function dispatching based on arguments
+- Flexible strategies using `key_idx`, `key_names`, and `key_generator`
+- Decorator syntax for clean registration of handlers
+- Method binding via descriptor protocol (supports class methods!)
+
+#### 📁 Files Added
+
+- `src/2025/July/dispatch.py`: The main `Dispatcher` implementation.
+- `src/2025/July/dispatch_essentials.ipynb`: Notebook with hands-on examples and explanations.
+- `tests/test_dispatcher.py`: Full test coverage using `pytest`, including:
+  - Dispatch by string key
+  - Dispatch by argument type
+  - Dispatch by multiple positional/keyword arguments
+  - Non-data descriptor binding (method-style dispatch)
