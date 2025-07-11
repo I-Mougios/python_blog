@@ -36,8 +36,24 @@ services:
     depends_on:
       - mysql
     working_dir: /app/bookscraper
-    entrypoint: [ "scrapy"]
+    entrypoint: ["scrapy"]
     command: ["crawl", "bookspider", "--loglevel", "INFO"] # can be overwritten from the cli use docker compose run ...
+
+  bookstore:
+    build:
+      context: .
+      dockerfile: src/bookstore_api/bookstore_api.dockerfile
+    environment:
+      - PYTHONPATH=/app/src
+    ports:
+      - "80:8000"
+    depends_on:
+      - mysql
+    volumes:
+      - ./src/bookstore_api:/app/src  # Allow active development without re-building the image every time
+      - ./src/configs:/app/configs  # bind mount the configurations files
+    working_dir: /app
+    entrypoint: ["python", "src"]
 
 volumes:
   mysql-data:
