@@ -134,7 +134,7 @@ if __name__ == "__main__":
             print(f"  {opt}")
 
         print("\n🧪 Example usage:")
-        print('  python options.py -u https://www.imdb.com --options "--headless=new --start-maximized"')
+        print('  python selenium_options.py -u https://www.imdb.com --options "--headless=new --start-maximized"')
         sys.exit(0)
 
     parser = argparse.ArgumentParser(description="Test Chrome options on a given URL.")
