@@ -7,7 +7,7 @@ dependencies = [
                 "dateutils",
                 "dotenv",
                 "sqlalchemy",
-                "mysqlclient",
+                "pymysql",
                 "cryptography",
                 "requests",
                 "scrapy",

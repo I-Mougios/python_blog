@@ -7,6 +7,7 @@ services:
       - ./src/configs/mysql.env
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./src/configs/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
 
@@ -17,7 +18,9 @@ services:
     container_name: scrapy_db
     volumes:
       - ./src/2025/June/database/base.py:/database/base.py
-      - ./configs/mysql.env:/database/mysql.env
+      - ./src/configs/mysql.env:/database/mysql.env
+    entrypoint: [".venv/bin/python"]
+    command: ["base.py"]
     depends_on:
       - mysql
 
@@ -36,7 +39,7 @@ services:
     depends_on:
       - mysql
     working_dir: /app/bookscraper
-    entrypoint: [ "scrapy"]
+    entrypoint: ["scrapy"]
     command: ["crawl", "bookspider", "--loglevel", "INFO"] # can be overwritten from the cli use docker compose run ...
 
 volumes:
