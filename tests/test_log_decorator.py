@@ -1,3 +1,4 @@
+import asyncio
 import importlib
 
 import pytest
@@ -24,6 +25,12 @@ def fail():
 @log(propagate_exceptions=False)
 def soft_fail():
     raise RuntimeError("should not propagate")
+
+
+@log(prefix="Asyncio")
+async def async_function():
+    await asyncio.sleep(1)
+    return "Done"
 
 
 def test_basic_logging(capsys):
@@ -66,3 +73,11 @@ def test_parentheses():
         return f"Hello, {name}!"
 
     greet("Ioannis")
+
+
+@pytest.mark.asyncio
+async def test_coroutines(capsys):
+    result = await async_function()
+    captured = capsys.readouterr().out
+    assert result == "Done"
+    assert "[Asyncio]: async_function()" in captured
