@@ -224,3 +224,19 @@ log_level = DEBUG
 endpoint = /v1/resources
 token = abc123
 ```
+
+## 📅 August 2025
+
+---
+🛠 1. DescriptorRegistry – Weakref-backed per-instance storage for descriptors
+Key Takeaways
+---
+- Safe Per-Instance Data – Stores descriptor values without polluting __dict__ or risking recursion.
+
+- Slots Compatibility – Works with __slots__ classes that include __weakref__.
+
+- Automatic Cleanup – Weak reference callbacks remove data when instances are garbage collected.
+
+- Dict-Like API – __getitem__, __setitem__, keys(), values(), items() for easy use.
+
+- Testing – Verified with normal, slotted, and weakref-enabled classes.
