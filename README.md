@@ -170,6 +170,7 @@ This module introduces a reusable `Dispatcher` class, inspired by Python’s `fu
 
 ### 🛠 3. ConfigMeta – Dynamic Configuration Loader
 
+---
 ConfigMeta is a powerful metaclass that dynamically loads configuration sections from .ini or .json files into Python classes.
 Each section becomes a nested class with attributes matching the config keys.
 It also provides a .get() method with support for default values and type casting.
