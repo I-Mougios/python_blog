@@ -168,6 +168,7 @@ This module introduces a reusable `Dispatcher` class, inspired by Python’s `fu
   - Dispatch by multiple positional/keyword arguments
   - Non-data descriptor binding (method-style dispatch)
 
+
 ### 🛠 3. ConfigMeta – Dynamic Configuration Loader
 
 ---
@@ -189,6 +190,7 @@ It also provides a .get() method with support for default values and type castin
 >This means it first looks for the key in the section itself, then in the [Globals] section (if present), and finally uses the provided default.
 >Supports direct attribute access (config.section.key) for keys defined in the section only.
 >Globals are only visible through .get(), not as attributes.
+
 
 📄 **Configuration Templates**
 
@@ -225,10 +227,11 @@ endpoint = /v1/resources
 token = abc123
 ```
 
+
 ## 📅 August 2025
 
 ---
-🛠 1. DescriptorRegistry – Weakref-backed per-instance storage for descriptors
+### 🛠 1. DescriptorRegistry – Weakref-backed per-instance storage for descriptors
 Key Takeaways
 ---
 - Safe Per-Instance Data – Stores descriptor values without polluting __dict__ or risking recursion.
@@ -240,3 +243,34 @@ Key Takeaways
 - Dict-Like API – __getitem__, __setitem__, keys(), values(), items() for easy use.
 
 - Testing – Verified with normal, slotted, and weakref-enabled classes.
+---
+
+### 🛠🧪 2. Configurable JSON Logging Utilities 
+
+Demystifying Python Logging concepts:
+ - loggers
+ - handlers
+ - formatters
+ - filters
+
+#### Key Features  
+- **YAML-driven configuration**: Load logging settings from a `logger_config.yaml` file found in the specified directory or any parent path.  
+- **Structured JSON logs**: Custom `JSONFormatter` outputs logs with ISO 8601 UTC timestamps, stack traces, and exception details for easy parsing.  
+- **Custom filtering**: `CustomFilter` lets you dynamically include or exclude log records based on `extra` attributes (e.g., `extra={"include": False}`).  
+- **Multiple handlers**: Preconfigured console and rotating file handlers for simultaneous human-readable and machine-readable logging.  
+- **Demonstration notebook**: Example Jupyter notebook shows filtering, formatting, and rotating file behavior in action.  
+
+#### Example Usage  
+```python
+import logging
+from debug_logging_utils import configure_loggers
+
+# Load configuration
+configure_loggers(directory="configs", filename="logger_config.yaml")
+
+app_logger = logging.getLogger("app")
+
+app_logger.info("This will be logged")
+app_logger.info("This will NOT appear in console", extra={"include": False})
+```
+---
