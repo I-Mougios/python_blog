@@ -1,6 +1,69 @@
 import inspect
+import json
+import logging
+import logging.config
+from datetime import UTC, datetime
+from pathlib import Path
 
 import wrapt
+from icecream import ic
+from yaml import safe_load
+
+
+def configure_loggers(directory: str | None = None, filename: str = "logger_config.yaml") -> dict | None:
+    try:
+        parents = Path(__file__).resolve().parents
+    except NameError:
+        parents = ic(Path.cwd().resolve().parents)
+
+    for path in parents:
+        if directory is not None:
+            path = path / directory
+
+        candidate = path / filename
+
+        if candidate.exists():
+            with open(candidate, encoding="utf-8") as f:
+                config = safe_load(f)
+
+            logging.config.dictConfig(config)
+            return config
+
+    raise FileNotFoundError(f"{filename} not found")
+
+    logging.config.dictConfig(config)
+    return config
+
+
+class JSONFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord):
+        log_dict = {
+            "created": self.serialize_local_timestamp(record.created),
+            "msec": record.msecs,
+            "loggerName": record.name,
+            "module": record.module,
+            "lineno": record.lineno,
+            "message": record.getMessage(),
+            "exceptionInfo": (self.formatException(record.exc_info) if record.exc_info else None),
+            "stackTrace": (self.formatStack(record.stack_info) if record.stack_info else None),
+        }
+
+        return json.dumps(log_dict, indent=2)
+
+    @staticmethod
+    def serialize_local_timestamp(t: float) -> str:
+        dt = datetime.fromtimestamp(t, UTC)
+        return dt.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+
+class CustomFilter(logging.Filter):
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.extra = kwargs
+
+    def filter(self, record: logging.LogRecord):
+        include = getattr(record, "include", True)
+        return bool(include)
 
 
 def log(_func=None, *, prefix=None, propagate_exceptions=True, print_return_value=True):  # noqa: C901

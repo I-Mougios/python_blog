@@ -1,0 +1,39 @@
+---
+version: 1
+disable_existing_loggers: true
+
+
+formatters:
+  simple:
+    style: "{"
+    format: "{name} - {levelname} - {message}"
+
+
+  json:
+    "()": 2025.August.debug_logging_utils.JSONFormatter
+
+filters:
+  'my_filter':
+    '()': 2025.August.debug_logging_utils.CustomFilter
+
+handlers:
+  rotating_file:
+    class: logging.handlers.RotatingFileHandler
+    formatter: json
+    filename: logs/app.log
+    maxBytes: 1000
+    backupCount: 3
+
+  console:
+    filters: ['my_filter']
+    formatter: simple
+    class: logging.StreamHandler
+    stream: ext://sys.stdout
+
+loggers:
+  root:
+    level: DEBUG
+
+  app:
+    level: INFO
+    handlers: [console, rotating_file]
