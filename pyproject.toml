@@ -9,15 +9,7 @@ dependencies = [
                 "sqlalchemy",
                 "pymysql",
                 "cryptography",
-                "requests",
-                "scrapy",
                 "ipython",
-                "brotli",
-                "brotlicffi",
-                "selenium",
-                "webdriver-manager",
-                "undetected_chromedriver",
-                "playwright",
 ]
 
 [project.optional-dependencies]
