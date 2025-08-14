@@ -53,7 +53,7 @@ class JSONFormatter(logging.Formatter):
     @staticmethod
     def serialize_local_timestamp(t: float) -> str:
         dt = datetime.fromtimestamp(t, UTC)
-        return dt.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 class CustomFilter(logging.Filter):

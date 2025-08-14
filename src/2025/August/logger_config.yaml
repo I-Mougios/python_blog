@@ -10,11 +10,11 @@ formatters:
 
 
   json:
-    "()": 2025.August.debug_logging_utils.JSONFormatter
+    "()": debug_logging_utils.JSONFormatter
 
 filters:
   'my_filter':
-    '()': 2025.August.debug_logging_utils.CustomFilter
+    '()': debug_logging_utils.CustomFilter
 
 handlers:
   rotating_file:
