@@ -2,6 +2,7 @@ import inspect
 import json
 import logging
 import logging.config
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -31,12 +32,50 @@ def configure_loggers(directory: str | None = None, filename: str = "logger_conf
 
     raise FileNotFoundError(f"{filename} not found")
 
-    logging.config.dictConfig(config)
-    return config
+
+class SQLAlchemyFormatter(logging.Formatter):
+
+    @staticmethod
+    def _extract_query_from_exception(exc_value: str) -> dict:
+
+        exc_str = str(exc_value)
+        sql_match = re.search(r"\[SQL:\s*(.*?)\]", exc_str, re.DOTALL)
+        params_match = re.search(r"\[parameters:\s*(.*?)\]", exc_str, re.DOTALL)
+        return {"query": sql_match.group(1), "params": params_match.group(1)}
+
+    def format(self, record: logging.LogRecord) -> str:  # noqa A003
+        if record.exc_info:
+            # Get the exception components
+            exc_type, exc_value, exc_traceback = record.exc_info
+            exception = {"exc_type": exc_type.__name__, "exc_summary": str(exc_value).split("\n")[0]}
+
+            query_dict = self._extract_query_from_exception(exc_value)
+            exception.update(query_dict)
+            exception_json = json.dumps(exception, indent=2)
+            return exception_json
+
+        return record.getMessage()
+
+
+class SQLAlchemyFilter(logging.Filter):
+    SQL_KEYWORDS = ("SELECT", "INSERT", "UPDATE", "CREATE", "DELETE", "ALTER")
+
+    def filter(self, record: logging.LogRecord) -> bool:  # noqa A003
+        # Always keep logs with exceptions
+        if record.exc_info:
+            return True
+
+        # Normalize message to uppercase for comparison
+        msg = record.getMessage().strip().upper()
+
+        if msg.startswith(self.SQL_KEYWORDS):
+            return True
+
+        return False
 
 
 class JSONFormatter(logging.Formatter):
-    def format(self, record: logging.LogRecord):
+    def format(self, record: logging.LogRecord):  # noqa A003
         log_dict = {
             "created": self.serialize_local_timestamp(record.created),
             "msec": record.msecs,
@@ -61,7 +100,7 @@ class CustomFilter(logging.Filter):
         super().__init__()
         self.extra = kwargs
 
-    def filter(self, record: logging.LogRecord):
+    def filter(self, record: logging.LogRecord):  # noqa A003
         include = getattr(record, "include", True)
         return bool(include)
 
@@ -75,7 +114,7 @@ def log(_func=None, *, prefix=None, propagate_exceptions=True, print_return_valu
 
     @wrapt.decorator(enabled=True)
     async def async_wrapper(wrapped, instance, args, kwargs):
-        print(
+        print(  # noqa  T201
             f"\n[{prefix}]: {wrapped.__name__}({format_args(args, kwargs)})"
             if prefix
             else f"\n{wrapped.__name__}({format_args(args, kwargs)})"
@@ -83,17 +122,17 @@ def log(_func=None, *, prefix=None, propagate_exceptions=True, print_return_valu
         try:
             result = await wrapped(*args, **kwargs)
             if print_return_value:
-                print(f"Returned value:\n\t{result}")
+                print(f"Returned value:\n\t{result}")  # noqa  T201
             return result
         except Exception as e:
-            print(f"Exception raised:\n {e}")
+            print(f"Exception raised:\n {e}")  # noqa  T201
             if propagate_exceptions:
                 raise
             return None
 
     @wrapt.decorator(enabled=True)
     def sync_wrapper(wrapped, instance, args, kwargs):
-        print(
+        print(  # noqa  T201
             f"\n[{prefix}]: {wrapped.__name__}({format_args(args, kwargs)})"
             if prefix
             else f"\n{wrapped.__name__}({format_args(args, kwargs)})"
@@ -101,10 +140,10 @@ def log(_func=None, *, prefix=None, propagate_exceptions=True, print_return_valu
         try:
             result = wrapped(*args, **kwargs)
             if print_return_value:
-                print(f"Returned value:\n\t{result}")
+                print(f"Returned value:\n\t{result}")  # noqa  T201
             return result
         except Exception as e:
-            print(f"Exception raised:\n {e}")
+            print(f"Exception raised:\n {e}")  # noqa  T201
             if propagate_exceptions:
                 raise
             return None

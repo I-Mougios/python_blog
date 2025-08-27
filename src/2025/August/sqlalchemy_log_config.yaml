@@ -1,0 +1,23 @@
+---
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  sqlalchemy_formatter:
+    "()": debug_logging_utils.SQLAlchemyFormatter
+
+filters:
+  sqlalchemy_filter:
+    '()': debug_logging_utils.SQLAlchemyFilter
+
+handlers:
+  sqlalchemy_stream_handler:
+    class: logging.StreamHandler
+    formatter: sqlalchemy_formatter
+    filters: [sqlalchemy_filter]
+    stream: ext://sys.stdout
+
+loggers:
+  sqlalchemy:
+    level: INFO
+    handlers: [sqlalchemy_stream_handler]

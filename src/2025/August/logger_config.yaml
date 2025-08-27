@@ -8,12 +8,11 @@ formatters:
     style: "{"
     format: "{name} - {levelname} - {message}"
 
-
   json:
     "()": debug_logging_utils.JSONFormatter
 
 filters:
-  'my_filter':
+  my_filter:
     '()': debug_logging_utils.CustomFilter
 
 handlers:
@@ -25,7 +24,7 @@ handlers:
     backupCount: 3
 
   console:
-    filters: ['my_filter']
+    filters: [my_filter]
     formatter: simple
     class: logging.StreamHandler
     stream: ext://sys.stdout
