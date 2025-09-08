@@ -114,7 +114,7 @@ def log(_func=None, *, prefix=None, propagate_exceptions=True, print_return_valu
             return async_wrapper(func)
         return sync_wrapper(func)
 
-    return choose_wrapper(_func) if callable(_func) else lambda f: choose_wrapper(f)
+    return choose_wrapper(_func) if callable(_func) else choose_wrapper
 
 
 def class_debugger(_cls=None, *, hook=log):
