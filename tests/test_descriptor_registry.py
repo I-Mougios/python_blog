@@ -3,7 +3,7 @@ import weakref
 
 import pytest
 
-DescriptorRegistry = importlib.import_module("src.2025.August.descriptor_registry").DescriptorRegistry
+DescriptorRegistry = importlib.import_module("src.2025.08_August.descriptor_registry").DescriptorRegistry
 
 
 # --- Test Fixtures ---

@@ -13,11 +13,11 @@ services:
 
   scrapy_db:
     build:
-      context: src/2025/June/database
+      context: src/2025/06_June/database
       dockerfile: database.dockerfile
     container_name: scrapy_db
     volumes:
-      - ./src/2025/June/database/base.py:/database/base.py
+      - ./src/2025/06_June/database/base.py:/database/base.py
       - ./src/configs/mysql.env:/database/mysql.env
     entrypoint: [".venv/bin/python"]
     command: ["base.py"]
@@ -31,9 +31,9 @@ services:
     container_name: bookscraper-container
     volumes:
       - ./src/bookscraper:/app/bookscraper
-      - ./src/2025/June/database:/app/src/2025/June/database
+      - ./src/2025/06_June/database:/app/src/2025/06_June/database
       - ./src/configs/scraper.env:/app/configs/scraper.env
-      - ./src/configs/mysql.env:/app/src/2025/June/database/mysql.env
+      - ./src/configs/mysql.env:/app/src/2025/06_June/database/mysql.env
     environment:
       - PYTHONPATH=/app/src
     depends_on:

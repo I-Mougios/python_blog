@@ -1,4 +1,4 @@
-# python_blog/src/2025/June/database/schema.py
+# python_blog/src/2025/06_June/database/schema.py
 from sqlalchemy import Column, Float, Integer, String, Text
 from sqlalchemy.orm import mapped_column
 

@@ -3,7 +3,7 @@ import importlib
 
 import pytest
 
-debug_logging_utils_module = importlib.import_module("src.2025.August.debug_logging_utils")
+debug_logging_utils_module = importlib.import_module("src.2025.08_August.debug_logging_utils")
 log = debug_logging_utils_module.log
 
 

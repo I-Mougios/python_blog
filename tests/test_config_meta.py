@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-config_meta_module = importlib.import_module("src.2025.July.config_meta")
-dispatch_module = importlib.import_module("src.2025.July.dispatch")
+config_meta_module = importlib.import_module("src.2025.07_July.config_meta")
+dispatch_module = importlib.import_module("src.2025.07_July.dispatch")
 
 ConfigMeta = config_meta_module.ConfigMeta
 Dispatcher = dispatch_module.Dispatcher

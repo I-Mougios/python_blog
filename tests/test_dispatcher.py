@@ -2,7 +2,7 @@ import importlib
 
 import pytest
 
-dispatch_module = importlib.import_module("src.2025.July.dispatch")
+dispatch_module = importlib.import_module("src.2025.07_July.dispatch")
 Dispatcher = dispatch_module.Dispatcher
 
 # ----- Fixtures -----
