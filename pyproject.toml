@@ -11,6 +11,7 @@ dependencies = [
                 "cryptography",
                 "ipython",
                 "icecream",
+                "aiofiles",
 ]
 
 [project.optional-dependencies]
