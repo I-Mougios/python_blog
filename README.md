@@ -274,3 +274,32 @@ app_logger.info("This will be logged")
 app_logger.info("This will NOT appear in console", extra={"include": False})
 ```
 ---
+
+## 📅 September 2025
+
+---
+### 🧪 1. Concurrent code using python's builtin `asyncio` library
+
+---
+Concurrency is fundamentally about how code is executed. It focuses on structuring programs so that multiple tasks
+can make progress overlapping in time, rather than running strictly one after another.
+There are three main concurrency strategies:
+There are three main concurrency strategies:
+  - Pre-emptive Concurrency (not demonstrated in this section)
+  - Cooperative Concurrency
+  - Multiprocessing (Parallelism)
+---
+
+In the examples contained in the asyncio_essentials folder, there is a progressive implementation of the same task:
+starting from a synchronous approach, moving to an asynchronous approach (Cooperative Concurrency)for I/O-bound tasks,
+and finally combining asynchronous code for I/O tasks with multiprocessing for CPU-bound tasks.
+
+### 📁 Files Added
+* 01_synchronous_implementation.py – Baseline synchronous approach.
+* 02_custom_asynchronous_implementation.py – First async attempt using asyncio primitives.
+* 03_httpx_asynchronous_implementation.py – Async HTTP requests using httpx.AsyncClient.
+* 04_asynchronous_multiprocess_implementation.py – Async downloads + parallel CPU-bound processing with ProcessPoolExecutor.
+---
+- intro/coroutines_tasks.py – Attempt to explain the await statement
+- intro/futures.py – Demonstration of asyncio.Future and its lifecycle.
+---
