@@ -175,6 +175,7 @@ This module introduces a reusable `Dispatcher` class, inspired by Python’s `fu
 ConfigMeta is a powerful metaclass that dynamically loads configuration sections from .ini or .json files into Python classes.
 Each section becomes a nested class with attributes matching the config keys.
 It also provides a .get() method with support for default values and type casting.
+
 ---
 
 📁 **Supported File Formats**
@@ -189,7 +190,6 @@ It also provides a .get() method with support for default values and type castin
 >The get() method follows the resolution order: local → Globals → default.
 >This means it first looks for the key in the section itself, then in the [Globals] section (if present), and finally uses the provided default.
 >Supports direct attribute access (config.section.key) for keys defined in the section only.
->Globals are only visible through .get(), not as attributes.
 
 
 📄 **Configuration Templates**
