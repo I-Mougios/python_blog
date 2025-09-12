@@ -46,7 +46,6 @@ async def concurrent_using_tasks() -> None:
     serve_tea_task = asyncio.create_task(serve_tea())
     await boil_water_task
     await brew_tea_task
-
     await serve_tea_task
 
 
