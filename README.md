@@ -303,3 +303,30 @@ and finally combining asynchronous code for I/O tasks with multiprocessing for C
 - intro/coroutines_tasks.py – Attempt to explain the await statement
 - intro/futures.py – Demonstration of asyncio.Future and its lifecycle.
 ---
+
+
+### 🧪 2. Parallel code using Python’s builtin multiprocessing library
+
+---
+Parallelism is about running multiple tasks literally at the same time by using multiple CPU cores.
+Unlike concurrency (which just overlaps progress), multiprocessing launches separate processes, each with its own memory space and Python interpreter (so its own GIL).
+
+This is particularly useful for CPU-bound tasks where the Global Interpreter Lock (GIL) would otherwise prevent true parallel execution in threads.
+
+In the examples contained in the multiprocessing_essentials folder, there is a progressive implementation of the same concept:
+starting from simple process spawning, moving to process coordination with join(), then using higher-level abstractions like concurrent.futures.ProcessPoolExecutor, and finally demonstrating real-world usage combining asyncio and multiprocessing.
+---
+📁 Files Added
+
+ - 01_intro.py – Demonstrates process spawning with multiprocessing.Process and start(). Shows that main code continues executing without waiting for child processes.
+
+ - 02_control_flow.py – Adds join() to wait for all processes to finish before continuing execution.
+
+ - 03_process_pool_executor_futures.py – Uses concurrent.futures.ProcessPoolExecutor with submit() and result() for explicit control of individual tasks.
+
+ - 04_process_pool_executor_as_completed.py – Demonstrates concurrent.futures.as_completed() to collect results in the order tasks complete.
+
+ - 05_process_pool_executor_map.py – Uses executor.map() to submit multiple processed and get the result in the order the processes were started.
+
+ - 06_multiprocessing_real_case.py – Real-world example combining asyncio for I/O-bound downloads with ProcessPoolExecutor and ThreadPoolExecutor for parallel CPU-bound image processing.
+---
