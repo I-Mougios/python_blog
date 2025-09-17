@@ -187,6 +187,7 @@ It also provides a .get() method with support for default values and type castin
 
 - Dynamically maps each configuration section to a class-level attribute.
 - Each section exposes a .get(key, default=..., cast=...) method.
+
 >The get() method follows the resolution order: local → Globals → default.
 >This means it first looks for the key in the section itself, then in the [Globals] section (if present), and finally uses the provided default.
 >Supports direct attribute access (config.section.key) for keys defined in the section only.
@@ -318,15 +319,10 @@ starting from simple process spawning, moving to process coordination with join(
 ---
 📁 Files Added
 
- - 01_intro.py – Demonstrates process spawning with multiprocessing.Process and start(). Shows that main code continues executing without waiting for child processes.
-
- - 02_control_flow.py – Adds join() to wait for all processes to finish before continuing execution.
-
- - 03_process_pool_executor_futures.py – Uses concurrent.futures.ProcessPoolExecutor with submit() and result() for explicit control of individual tasks.
-
- - 04_process_pool_executor_as_completed.py – Demonstrates concurrent.futures.as_completed() to collect results in the order tasks complete.
-
- - 05_process_pool_executor_map.py – Uses executor.map() to submit multiple processed and get the result in the order the processes were started.
-
- - 06_multiprocessing_real_case.py – Real-world example combining asyncio for I/O-bound downloads with ProcessPoolExecutor and ThreadPoolExecutor for parallel CPU-bound image processing.
+* 01_intro.py – Demonstrates process spawning with multiprocessing.Process and start(). Shows that main code continues executing without waiting for child processes. 
+* 02_control_flow.py – Adds join() to wait for all processes to finish before continuing execution.
+* 03_process_pool_executor_futures.py – Uses concurrent.futures.ProcessPoolExecutor with submit() and result() for explicit control of individual tasks.
+* 04_process_pool_executor_as_completed.py – Demonstrates concurrent.futures.as_completed() to collect results in the order tasks complete.
+* 05_process_pool_executor_map.py – Uses executor.map() to submit multiple processed and get the result in the order the processes were started.
+* 06_multiprocessing_real_case.py – Real-world example combining asyncio for I/O-bound downloads with ProcessPoolExecutor and ThreadPoolExecutor for parallel CPU-bound image processing.
 ---
