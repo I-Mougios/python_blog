@@ -3,38 +3,31 @@ name = "python_blog"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
-                "wrapt",
-                "dateutils",
-                "dotenv",
-                "sqlalchemy",
-                "pymysql",
-                "cryptography",
-                "ipython",
-                "icecream",
-                "aiofiles",
+    "wrapt",
+    "dateutils",
+    "dotenv",
+    "sqlalchemy",
+    "pymysql",
+    "cryptography",
+    "ipython",
+    "icecream",
+    "aiofiles",
+    "benedict[all]",
+    "pydantic",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
     "pytest-asyncio",
-    "black[jupyter]",
-    "isort",
-    "flake8",
-    "flake8-pyproject",
-    "flake8-bandit",
-    "flake8-bugbear",
-    "flake8-builtins",
-    "flake8-comprehensions",
-    "flake8-eradicate",
-    "flake8-implicit-str-concat",
-    "flake8-print",
-    "pep8-naming",
+    "ruff",
+    "black[jupyter]",    # Optional, Ruff can format too
     "pre-commit",
     "commitizen",
     "jupyter",
 ]
 
+# Black formatting settings
 [tool.black]
 line-length = 120
 target-version = ['py313']
@@ -48,13 +41,37 @@ exclude = '''
   |\.md
   |\.venv
 )/
-'''  # Files Black will ignore
+'''
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-src_paths = ["src"]
+# Ruff linter settings
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+# Files/folders to exclude from linting
+exclude = [
+    ".git",
+    ".venv",
+    "migrations",
+    "__pycache__",
+    "*.md",
+    "*.ini",
+    "*.toml",
+    ".*sh",
+]
 
+[tool.ruff.lint]
+ignore = []
+select = ["B", "B9", "C", "E", "F", "I", "W", "T"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+# Optional: pytest settings
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+
+# Commitizen settings
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.1.0"
@@ -63,12 +80,9 @@ version_files = [
     "pyproject.toml:version"
 ]
 
+# Setuptools settings
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.pytest.ini_options]
-asyncio_mode = "strict"
-asyncio_default_fixture_loop_scope = "function"
