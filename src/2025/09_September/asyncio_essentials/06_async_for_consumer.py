@@ -39,8 +39,7 @@ async def main():
 
     print("[Ctrl + D] Cleaning up ...")  # noqa: T201
     running_tasks = [t for t in asyncio.all_tasks() if t is not asyncio.current_task()]
-    if len(running_tasks) > 1:
-        running_tasks.pop()
+    if running_tasks:
         print(f"Running tasks: {running_tasks!r}")  # noqa: T201
         await asyncio.wait(running_tasks, timeout=10)
 

@@ -63,9 +63,8 @@ async def main():
     except asyncio.CancelledError:
         print("Listener has officially stopped.")  # noqa: T201
 
-    running_tasks = [t for t in asyncio.all_tasks()]
+    running_tasks = [t for t in asyncio.all_tasks() if t is not asyncio.current_task()]
     if running_tasks:
-        running_tasks.pop()
         print(f"Running tasks: {running_tasks!r}")  # noqa: T201
         await asyncio.wait(running_tasks, timeout=10)
 
