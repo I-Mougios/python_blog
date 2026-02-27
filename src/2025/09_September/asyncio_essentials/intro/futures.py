@@ -15,7 +15,6 @@ async def async_write(path: str) -> str:
 
 
 async def main(path: str) -> str:
-
     loop = asyncio.get_event_loop()
     future = loop.create_future()  # A promise-like object that wait a result
     print(f"Empty future: {future}")

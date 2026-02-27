@@ -68,7 +68,6 @@ timings = {}
 
 
 def timer(func: Optional[Callable] = None, *, timings_dict: dict | None = None) -> Callable:
-
     if timings_dict is None:
         timings_dict = {}
 
